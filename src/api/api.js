@@ -2,19 +2,20 @@ const host = "http://localhost:3030/"
 async function request(url, options) {
     try {
         const response = await fetch(host + url, options);
-        if (response.status >= 204) {
+        if (response.status == 204) {
             return response;
         }
 
         const data = await response.json();
-        if(response.ok === false){
+
+        if(!response.ok){
             throw new Error(data.message)
         }
 
         return data;
 
     } catch (error) {
-        alert(error.message);
+       
       throw error
     }
 }

@@ -18,19 +18,14 @@ export async function login(email, password) {
 
 }
 
-export async function register(email,username, password) {
-    const res = await api.post(endpoint.register, { email,username, password});
-    if (res.code === 409) {
-        alert(res.message)
-        return false;
-    } else {
-        localStorage.setItem("userData", JSON.stringify(res));
-        return res
-    }
+export async function register(email, username, password) {
+    const res = await api.post(endpoint.register, { email, username, password });
+    localStorage.setItem("userData", JSON.stringify(res));
+    return res
 }
 
 export async function logout() {
-    
+
     const res = await api.get(endpoint.logout);
     localStorage.removeItem("userData");
     return res;
