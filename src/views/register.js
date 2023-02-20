@@ -55,6 +55,7 @@ async function onSubmit(e) {
         const { accessToken, email, username, _createdOn, _id } = await register(emailInput, usernameInput, passwordInput);
 
         localStorage.setItem("userData", JSON.stringify({ accessToken, email, username, _createdOn, _id }));
+       
         page.redirect("/");
 
     } catch (error) {
