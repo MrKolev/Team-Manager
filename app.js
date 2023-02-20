@@ -8,22 +8,36 @@ import { logout } from "./src/api/data.js";
 
 
 
-page("/",renderMiddleware, homeView);
-page("/login", renderMiddleware, loginView );
+page("/", renderMiddleware, homeView);
+page("/login", renderMiddleware, loginView);
 page("/register", renderMiddleware, registerView);
 page("/myTeams", renderMiddleware, myTeamsView);
 page("/logout", logoutBtn);
 
+updateNav()
+
 page.start();
 
-function logoutBtn(){
-    logout();
-        // updateNav()
+async function logoutBtn() {
+   await logout();
+    updateNav()
     page.redirect("/");
 }
 
-function renderMiddleware(ctx, next){
+function renderMiddleware(ctx, next) {
     ctx.render = (content) => render(content, document.querySelector('main'));
     next();
+}
+
+export function updateNav() {
+    const user = JSON.parse(localStorage.getItem('userData'));
+  
+    if (user) {
+        document.querySelectorAll(".guest").forEach(x => x.style.display = "none");
+        document.querySelectorAll(".user").forEach(x => x.style.display = "block");
+    } else {
+        document.querySelectorAll(".guest").forEach(x => x.style.display = "block");
+        document.querySelectorAll(".user").forEach(x => x.style.display = "none");
+    }
 }
 

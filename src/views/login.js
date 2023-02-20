@@ -1,6 +1,8 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { login } from "../api/data.js"
 import page from "../../node_modules/page/page.mjs";
+import { updateNav } from "../../app.js";
+import { clearForm } from "../api/utils.js";
 
 let context = null;
 export function loginView(ctx) {
@@ -17,7 +19,13 @@ function loginViewTemplate(onSubmit, error) {
             <h1>Login</h1>
         </header>
         <form @submit = ${onSubmit} id="login-form" class="main-form pad-large">
-        ${error && html`<div class="error">${error}</div>`}
+        ${error && html`   
+        <div class="overlay">
+            <div class="modal">
+                <p>${error}</p>
+                <a @click=${clearForm("login-form")} href="#" class="action">Close</a>
+            </div>
+        </div>`}
             <label>E-mail: <input type="text" name="email"></label>
             <label>Password: <input type="password" name="password"></label>
             <input class="action cta" type="submit" value="Sign In">
@@ -40,7 +48,7 @@ async function onSubmit(e) {
             throw new Error("Fill in all the fields")
         }
         await login(emailInput, passwordInput);
-        // updateNav()
+        updateNav()
         page.redirect("/")
 
     } catch (error) {
