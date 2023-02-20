@@ -2,7 +2,7 @@ import { html } from "../../node_modules/lit-html/lit-html.js";
 import { login } from "../api/data.js"
 import page from "../../node_modules/page/page.mjs";
 import { updateNav } from "../../app.js";
-import { clearForm } from "../api/utils.js";
+import { modalTemplate } from "../api/utils.js";
 
 let context = null;
 export function loginView(ctx) {
@@ -19,18 +19,12 @@ function loginViewTemplate(onSubmit, error) {
             <h1>Login</h1>
         </header>
         <form @submit = ${onSubmit} id="login-form" class="main-form pad-large">
-        ${error && html`   
-        <div class="overlay">
-            <div class="modal">
-                <p>${error}</p>
-                <a @click=${clearForm("login-form")} href="#" class="action">Close</a>
-            </div>
-        </div>`}
+        ${error && modalTemplate("login-form",error)}
             <label>E-mail: <input type="text" name="email"></label>
             <label>Password: <input type="password" name="password"></label>
             <input class="action cta" type="submit" value="Sign In">
         </form>
-        <footer class="pad-small">Don't have an account? <a href="#" class="invert">Sign up here</a>
+        <footer class="pad-small">Don't have an account? <a href="/register" class="invert">Sign up here</a>
         </footer>
     </article>
 </section>
