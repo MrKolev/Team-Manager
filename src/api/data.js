@@ -20,7 +20,6 @@ export async function login(email, password) {
 
 export async function register(email, username, password) {
     const res = await api.post(endpoint.register, { email, username, password });
-    localStorage.setItem("userData", JSON.stringify(res));
     return res
 }
 

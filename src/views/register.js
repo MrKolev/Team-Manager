@@ -16,7 +16,7 @@ function registerViewTemplate(header, error) {
             <h1>Register</h1>
         </header>
         <form @submit=${header} id="register-form" class="main-form pad-large">
-            ${error ? html`<div class="error">${error}</div>` : null}
+            ${error && html`<div class="error">${error}</div>`}
             <label>E-mail: <input type="text" name="email"></label>
             <label>Username: <input type="text" name="username"></label>
             <label>Password: <input type="password" name="password"></label>
@@ -55,7 +55,7 @@ async function onSubmit(e) {
         const { accessToken, email, username, _createdOn, _id } = await register(emailInput, usernameInput, passwordInput);
 
         localStorage.setItem("userData", JSON.stringify({ accessToken, email, username, _createdOn, _id }));
-       
+           // updateNav()
         page.redirect("/");
 
     } catch (error) {

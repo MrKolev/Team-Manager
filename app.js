@@ -18,6 +18,7 @@ page.start();
 
 function logoutBtn(){
     logout();
+        // updateNav()
     page.redirect("/");
 }
 
