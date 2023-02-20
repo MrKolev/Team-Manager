@@ -5,6 +5,11 @@ const endpoint = {
     "register": "users/register",
     "logout": "users/logout"
 }
+// List of all teams:
+// GET /data/teams
+
+
+
 
 export async function login(email, password) {
     const res = await api.post(endpoint.login, { email, password });
