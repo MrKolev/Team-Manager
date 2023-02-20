@@ -1,9 +1,9 @@
 import * as api from "./api.js"
 
 const endpoint = {
-    "login": "...login...",
-    "register": "...register...",
-    "logout": "...logout..."
+    "login": "users/login",
+    "register": "users/register",
+    "logout": "users/logout"
 }
 
 export async function login(email, password) {
@@ -13,8 +13,8 @@ export async function login(email, password) {
 
 }
 
-export async function register(email, password) {
-    const res = await api.post(endpoint.register, { email, password });
+export async function register(email,username, password) {
+    const res = await api.post(endpoint.register, { email,username, password});
     if (res.code === 409) {
         alert(res.message)
         return false;
