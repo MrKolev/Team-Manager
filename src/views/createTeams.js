@@ -1,20 +1,25 @@
 import { Spinner } from "../../node_modules/spin.js/spin.js";
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { createTeam } from "../api/data.js";
+import { modalTemplate } from "../api/utils.js";
+import page from "../../node_modules/page/page.mjs";
 
+
+let context = null;
 
 export function createTeamView(ctx){
+    context=ctx;
     ctx.render(createTeamTemp(onSubmit))
 }
 
-function createTeamTemp(onSubmit){
+function createTeamTemp(onSubmit, error){
     return html` <section id="create">
     <article class="narrow">
         <header class="pad-med">
             <h1>New Team</h1>
         </header>
         <form @submit = ${onSubmit} id="create-form" class="main-form pad-large">
-            <div class="error">Error message.</div>
+        ${error && modalTemplate("create-form", error)}
             <label>Team name: <input type="text" name="name"></label>
             <label>Logo URL: <input type="text" name="logoUrl"></label>
             <label>Description: <textarea name="description"></textarea></label>
@@ -43,10 +48,12 @@ async function onSubmit(e){
 
        const newTeam = await createTeam(name, logoUrl, description);
        spin.stop();
-       page.redirect("/Team Details")
+       page.redirect("")
 
         
     } catch (error) {
+        spin.stop()
+        context.render(createTeamTemp(onSubmit, error.message))
         
     }
 
