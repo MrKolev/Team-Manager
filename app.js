@@ -5,6 +5,8 @@ import { loginView } from "./src/views/login.js";
 import { registerView } from "./src/views/register.js";
 import { myTeamsView } from "./src/views/myTeams.js";
 import { logout } from "./src/api/data.js";
+import { browseTeamView } from "./src/views/browseTeams.js";
+import { createTeamView } from "./src/views/createTeams.js";
 
 
 
@@ -13,6 +15,8 @@ page("/login", renderMiddleware, loginView);
 page("/register", renderMiddleware, registerView);
 page("/myTeams", renderMiddleware, myTeamsView);
 page("/logout", logoutBtn);
+page("/browse", renderMiddleware, browseTeamView)
+page("/create", renderMiddleware, createTeamView);
 
 updateNav()
 
@@ -26,6 +30,8 @@ async function logoutBtn() {
 
 function renderMiddleware(ctx, next) {
     ctx.render = (content) => render(content, document.querySelector('main'));
+    ctx.updateNav = updateNav
+
     next();
 }
 

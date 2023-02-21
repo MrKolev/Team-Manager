@@ -9,7 +9,7 @@ async function request(url, options) {
         const data = await response.json();
 
         if (!response.ok) {
-            if (response.status === 409) {
+            if (response.status === 409 || response.status === 403) {
                 localStorage.clear();
             }
 
