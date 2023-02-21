@@ -4,7 +4,6 @@ import { homePageTempBtn } from "../api/utils.js";
 export function homeView(ctx) {
     ctx.render(homeTemplate())
     ctx.updateNav()
-
 }
 
 function homeTemplate() {

@@ -1,20 +1,21 @@
+import { Spinner } from "../../node_modules/spin.js/spin.js";
 import { html } from "../../node_modules/lit-html/lit-html.js";
 import { getAllTeamsList } from "../api/data.js";
-import {createTeamTemplateBtn} from "../api/utils.js"
-
+import { createTeamTemplateBtn } from "../api/utils.js"
 
 
 export async function browseTeamView(ctx) {
-    const listOfTeams = await getAllTeamsList();
-    ctx.render(browseTeamTemplate(listOfTeams));
     
+   let spin = new Spinner().spin(document.querySelector('main'));
+    const listOfTeams = await getAllTeamsList();
+    spin.stop()
+    ctx.render(browseTeamTemplate(listOfTeams));
+   
+
 }
 
-
-
-
-function browseTeamTemplate(listOfTeams){
-    return html `
+function browseTeamTemplate(listOfTeams) {
+    return html`
     <section id="browse">
 
     <article class="pad-med">
@@ -23,7 +24,7 @@ function browseTeamTemplate(listOfTeams){
 
     ${createTeamTemplateBtn()}
     ${listOfTeams.map(team => {
-        return html `
+        return html`
         <article class="layout">
         <img src=".${team.logoUrl}" class="team-logo left-col">
         <div class="tm-preview">
@@ -35,11 +36,6 @@ function browseTeamTemplate(listOfTeams){
     </article>
     `
     })}
-
-    
-
-
-
 </section>
 `
 }

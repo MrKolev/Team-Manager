@@ -6,8 +6,8 @@ import { registerView } from "./src/views/register.js";
 import { myTeamsView } from "./src/views/myTeams.js";
 import { logout } from "./src/api/data.js";
 import { browseTeamView } from "./src/views/browseTeams.js";
-import { createTeamView } from "./src/views/createTeams.js";
-
+import { createTeamView } from "./src/views/createTeams.js"
+import { Spinner } from "./node_modules/spin.js/spin.js";
 
 
 page("/", renderMiddleware, homeView);
@@ -23,15 +23,16 @@ updateNav()
 page.start();
 
 async function logoutBtn() {
+    let spin = new Spinner().spin(document.querySelector('main'));
    await logout();
     updateNav()
+    spin.stop();
     page.redirect("/");
 }
 
 function renderMiddleware(ctx, next) {
     ctx.render = (content) => render(content, document.querySelector('main'));
     ctx.updateNav = updateNav
-
     next();
 }
 

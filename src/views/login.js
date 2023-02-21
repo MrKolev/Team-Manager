@@ -2,7 +2,8 @@ import { html } from "../../node_modules/lit-html/lit-html.js";
 import { login } from "../api/data.js"
 import page from "../../node_modules/page/page.mjs";
 import { updateNav } from "../../app.js";
-import { modalTemplate } from "../api/utils.js";
+import { modalTemplate} from "../api/utils.js";
+import { Spinner } from "../../node_modules/spin.js/spin.js";
 
 let context = null;
 export function loginView(ctx) {
@@ -33,6 +34,7 @@ function loginViewTemplate(onSubmit, error) {
 
 async function onSubmit(e) {
     e.preventDefault();
+    let spin = new Spinner().spin(document.querySelector('main'));
     const dataForm = new FormData(e.target);
     const emailInput = dataForm.get("email");
     const passwordInput = dataForm.get("password");
@@ -43,9 +45,10 @@ async function onSubmit(e) {
         }
         await login(emailInput, passwordInput);
         updateNav()
-        page.redirect("/")
-
+        spin.stop();
+        page.redirect("/")   
     } catch (error) {
+        spin.stop();
         context.render(loginViewTemplate(onSubmit, error.message));
     }
 

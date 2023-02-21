@@ -2,6 +2,7 @@ import { html } from "../../node_modules/lit-html/lit-html.js"
 import { register } from "../api/data.js";
 import page from "../../node_modules/page/page.mjs";
 import { modalTemplate } from "../api/utils.js";
+import { Spinner } from "../../node_modules/spin.js/spin.js";
 
 let context = null;
 export function registerView(ctx) {
@@ -33,6 +34,7 @@ function registerViewTemplate(header, error) {
 
 async function onSubmit(e) {
     e.preventDefault();
+    let spin = new Spinner().spin(document.querySelector('main'));
     const dataForm = new FormData(e.target);
     const repeatInput = dataForm.get("repass");
     const emailInput = dataForm.get("email");
@@ -56,10 +58,11 @@ async function onSubmit(e) {
         const { accessToken, email, username, _createdOn, _id } = await register(emailInput, usernameInput, passwordInput);
 
         localStorage.setItem("userData", JSON.stringify({ accessToken, email, username, _createdOn, _id }));
+        spin.stop();
         page.redirect("/");
 
     } catch (error) {
-        
+        spin.stop()
         context.render(registerViewTemplate(onSubmit, error.message))
     }
 }
