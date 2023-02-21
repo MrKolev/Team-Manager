@@ -5,7 +5,19 @@ const endpoint = {
     "register": "users/register",
     "logout": "users/logout",
     "getAllTeamsList": "data/teams",
+    "getMyTeamsList": (userId) => `data/members?where=_ownerId%3D%22${userId}%22%20AND%20status%3D%22member%22&load=team%3DteamId%3Ateams`,
+    "createTeam": "data/teams"
 
+}
+
+export async function createTeam(name, logoUrl, description) {
+    const res = await api.post(endpoint.createTeam, { name, logoUrl, description })
+    return res
+}
+
+export async function getMyTeamsList(id) {
+    const res = await api.get(endpoint.getMyTeamsList(id));
+    return res
 }
 
 
