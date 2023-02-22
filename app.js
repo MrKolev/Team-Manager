@@ -8,6 +8,7 @@ import { logout } from "./src/api/data.js";
 import { browseTeamView } from "./src/views/browseTeams.js";
 import { createTeamView } from "./src/views/createTeams.js"
 import { Spinner } from "./node_modules/spin.js/spin.js";
+import { teamHomeView } from "./src/views/homeTeam.js";
 
 
 page("/", renderMiddleware, homeView);
@@ -17,6 +18,8 @@ page("/myTeams", renderMiddleware, myTeamsView);
 page("/logout", logoutBtn);
 page("/browse", renderMiddleware, browseTeamView)
 page("/create", renderMiddleware, createTeamView);
+page("/teamHome/:id", renderMiddleware, teamHomeView);
+page("/edit/:id", renderMiddleware, teamHomeView);
 
 updateNav()
 

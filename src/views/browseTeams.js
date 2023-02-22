@@ -31,7 +31,7 @@ function browseTeamTemplate(listOfTeams) {
             <h2>${team.name}</h2>
             <p>${team.description}</p>
             <span class="details">5000 Members</span>
-            <div><a href="#" class="action">See details</a></div>
+            <div><a href="/teamHome/${team._id}" class="action">See details</a></div>
         </div>
     </article>
     `

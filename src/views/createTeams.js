@@ -48,8 +48,7 @@ async function onSubmit(e){
 
        const newTeam = await createTeam(name, logoUrl, description);
        spin.stop();
-       page.redirect("")
-
+       page.redirect(`/teamHome/${newTeam._id}`)
         
     } catch (error) {
         spin.stop()
