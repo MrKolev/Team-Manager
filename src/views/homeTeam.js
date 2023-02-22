@@ -11,6 +11,7 @@ export async function teamHomeView(cxt) {
 
     let teamInfo = await getTeamHomeInfo(teamsId);
     teamInfo.teamMemberships = await getListAllMemberships(teamsId);
+    teamInfo.members = teamInfo.teamMemberships.filter(team => team.status === "member");
 
     spin.stop()
 
@@ -18,8 +19,7 @@ export async function teamHomeView(cxt) {
         return cxt.render(teamHomeTempGuest(teamInfo));
     }
 
-    teamInfo.members = teamInfo.teamMemberships.filter(team => team._ownerId != user._id && team.status === "member");
-    teamInfo.pending = teamInfo.teamMemberships.filter(team => team._ownerId != user._id && team.status === "pending");
+    teamInfo.pending = teamInfo.teamMemberships.filter(team => team.status === "pending");
     teamInfo.user = user;
 
     if (user._id === teamInfo._ownerId) {
@@ -35,7 +35,7 @@ function teamHomeTempGuest(teamInfo) {
     <article class="layout">
         <img src="../${teamInfo.logoUrl}" class="team-logo left-col">
         <div class="tm-preview">
-            <h2>${teamInfo.user.username}</h2>
+            <h2>${teamInfo.name}</h2>
             <p>${teamInfo.description}</p>
             <span class="details">${(teamInfo.teamMemberships).length} Members</span>
             <div></div>
@@ -60,7 +60,7 @@ function teamHomeTempOwner(teamInfo) {
     <article class="layout">
         <img src="../${teamInfo.logoUrl}" class="team-logo left-col">
         <div class="tm-preview">
-            <h2>${teamInfo.user.username}</h2>
+            <h2>${teamInfo.name}</h2>
             <p>${teamInfo.description}</p>
             <span class="details">${(teamInfo.teamMemberships).length} Members</span>
             <div>
@@ -70,10 +70,12 @@ function teamHomeTempOwner(teamInfo) {
         <div class="pad-large">
             <h3>Members</h3>
             <ul class="tm-members">
-              <li>${teamInfo.userName}</li>
-              ${teamInfo.members.map(x => {
-        return html`<li>${x.user.username}<a href="#" class="tm-control action">Remove from team</a></li>`
-    })}
+              <li>${teamInfo.user.username}</li>
+            ${teamInfo.members.map(x => {
+                if(teamInfo.user.username != x.user.username){
+                    return html`<li>${x.user.username}<a href="#" class="tm-control action">Remove from team</a></li>`
+                }
+            })}
             </ul>
         </div>
         <div class="pad-large">
@@ -97,11 +99,11 @@ function teamHomeTempLoggedUser(teamInfo) {
     <article class="layout">
         <img src="../${teamInfo.logoUrl}" class="team-logo left-col">
         <div class="tm-preview">
-            <h2>${teamInfo.user.username}</h2>
+            <h2>${teamInfo.name}</h2>
             <p>${teamInfo.description}</p>
-            <span class="details">${(teamInfo.teamMemberships).length} Members</span>
+            <span class="details">${(teamInfo.members).length} Members</span>
             <div>
-            ${teamHomeTempLoggedUserFragment(teamInfo.teamMemberships, teamInfo.user)}
+            ${teamHomeTempLoggedUserFragment(teamInfo)}
             </div>
         </div>
         <div class="pad-large">
@@ -117,16 +119,21 @@ function teamHomeTempLoggedUser(teamInfo) {
 `
 }
 
-function teamHomeTempLoggedUserFragment(teamMemberships, user) {
-    const userState = teamMemberships.filter(x => x.user._id === user._id).status;
-
-    if (userState === "pending") {
-        return html`Membership pending. <a href="#">Cancel request</a>`
-    } else if (userState === "member") {
-        return html`<a href="#" class="action invert">Leave team</a>`
-    } else {
-        return html`<a href="#" class="action">Join team</a>`
+function teamHomeTempLoggedUserFragment(teamInfo) {
+    const userState = teamInfo.teamMemberships.filter(x => x.user._id === teamInfo.user._id);
+    
+    if(userState.length == 0){
+        return html`<a  href="/joinTeam/${teamInfo._id}" class="action">Join team</a>`
     }
+
+    if (userState[0].status === "pending") {
+        return html`Membership pending. <a href="#">Cancel request</a>`
+    }
+    
+    if (userState[0].status === "member") {
+        return html`<a href="#" class="action invert">Leave team</a>`
+    } 
+
 
 }
 

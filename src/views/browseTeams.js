@@ -1,6 +1,6 @@
 import { Spinner } from "../../node_modules/spin.js/spin.js";
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { getAllTeamsList, getListAllMemberships, getMembersStatusMember } from "../api/data.js";
+import { getAllTeamsList, getMembersStatusMember } from "../api/data.js";
 import { createTeamTemplateBtn } from "../api/utils.js"
 
 

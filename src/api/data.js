@@ -12,6 +12,10 @@ const endpoint = {
     "membersStatusMember":"data/members?where=status%3D%22member%22",
 
 }
+export async function postJoinTeam (teamId) {    
+    const res = await api.post("data/members", { teamId })
+    return res
+}
 
 export async function getMembersStatusMember(){
     const res = await api.get(endpoint.membersStatusMember);
