@@ -8,9 +8,15 @@ const endpoint = {
     "getMyTeamsList": (userId) => `data/members?where=_ownerId%3D%22${userId}%22%20AND%20status%3D%22member%22&load=team%3DteamId%3Ateams`,
     "createTeam": "data/teams",
     "teamHomeInfo": "data/teams/",
-    "allMemberships": (teamId) => `data/members?where=teamId%3D%22${teamId}%22&load=user%3D_ownerId%3Ausers`
+    "allMemberships": (teamId) => `data/members?where=teamId%3D%22${teamId}%22&load=user%3D_ownerId%3Ausers`,
+    "membersStatusMember":"data/members?where=status%3D%22member%22",
 
 }
+
+export async function getMembersStatusMember(){
+    const res = await api.get(endpoint.membersStatusMember);
+    return res
+} 
 
 export async function getListAllMemberships(teamId){
     const res = await api.get(endpoint.allMemberships(teamId));
