@@ -14,6 +14,7 @@ import { leaveTeamCancel } from "./src/views/leaveTeamCancel.js";
 import { approve } from "./src/views/approve.js";
 
 
+page("/index.html", renderMiddleware, homeView);
 page("/", renderMiddleware, homeView);
 page("/login", renderMiddleware, loginView);
 page("/register", renderMiddleware, registerView);
@@ -27,7 +28,6 @@ page("/joinTeamAutomatically/:id", renderMiddleware, joinTeamAutomatically);
 page("/joinTeam/:id/:teamId", renderMiddleware, joinTeam);
 page("/approve/:recId/:teamId", renderMiddleware, approve);
 page("/leaveTeamCancel/:teamId/:memberId", renderMiddleware, leaveTeamCancel);
-page('*', renderMiddleware, homeView)
 
 updateNav()
 

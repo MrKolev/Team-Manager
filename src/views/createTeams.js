@@ -1,6 +1,6 @@
 import { Spinner } from "../../node_modules/spin.js/spin.js";
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { approveMembership, createTeam, postJoinTeam } from "../api/data.js";
+import { createTeam } from "../api/data.js";
 import { modalTemplate } from "../api/utils.js";
 
 
@@ -18,7 +18,7 @@ function createTeamTemp(onSubmit, error){
             <h1>New Team</h1>
         </header>
         <form @submit = ${onSubmit} id="create-form" class="main-form pad-large">
-        ${error && modalTemplate("create-form", error)}
+        ${error ? modalTemplate("create-form", error):""}
             <label>Team name: <input type="text" name="name"></label>
             <label>Logo URL: <input type="text" name="logoUrl"></label>
             <label>Description: <textarea name="description"></textarea></label>
@@ -47,7 +47,7 @@ async function onSubmit(e){
 
        const newTeam = await createTeam(name, logoUrl, description);
 
-       spin.stop();
+       spin.stop()
        context.page.redirect(`/joinTeamAutomatically/${newTeam._id}`)
         
     } catch (error) {

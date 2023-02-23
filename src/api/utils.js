@@ -6,7 +6,7 @@ export function modalTemplate(id, error) {
         <div class="overlay">
             <div class="modal">
                 <p>${error}</p>
-                <a @click=${document.getElementById(id).reset()} href="#" class="action">Close</a>
+                <a @click=${document.getElementById(id).reset()} href="/create" class="action">Close</a>
             </div>
         </div>`
 

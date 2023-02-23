@@ -34,7 +34,10 @@ export async function postJoinTeam(teamId) {
 
 export async function getMemberId(userId,teamId) {
     const res = await api.get(endpoint.getMemberId(userId,teamId));
-    return res[0]._id
+    if(res.length > 0) {
+        return res[0]._id
+    }
+    return null
 }
 export async function getMembersStatusMember() {
     const res = await api.get(endpoint.membersStatusMember);
