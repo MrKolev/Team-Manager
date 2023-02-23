@@ -1,8 +1,7 @@
 import { Spinner } from "../../node_modules/spin.js/spin.js";
 import { html } from "../../node_modules/lit-html/lit-html.js";
-import { createTeam } from "../api/data.js";
+import { approveMembership, createTeam, postJoinTeam } from "../api/data.js";
 import { modalTemplate } from "../api/utils.js";
-import page from "../../node_modules/page/page.mjs";
 
 
 let context = null;
@@ -47,8 +46,9 @@ async function onSubmit(e){
         }
 
        const newTeam = await createTeam(name, logoUrl, description);
+
        spin.stop();
-       page.redirect(`/teamHome/${newTeam._id}`)
+       context.page.redirect(`/joinTeamAutomatically/${newTeam._id}`)
         
     } catch (error) {
         spin.stop()

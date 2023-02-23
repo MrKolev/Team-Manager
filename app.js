@@ -9,7 +9,9 @@ import { browseTeamView } from "./src/views/browseTeams.js";
 import { createTeamView } from "./src/views/createTeams.js"
 import { Spinner } from "./node_modules/spin.js/spin.js";
 import { teamHomeView } from "./src/views/homeTeam.js";
-import { joinTeam } from "./src/views/joinTeam.js";
+import { joinTeam, joinTeamAutomatically } from "./src/views/joinTeam.js";
+import { leaveTeamCancel } from "./src/views/leaveTeamCancel.js";
+import { approve } from "./src/views/approve.js";
 
 
 page("/", renderMiddleware, homeView);
@@ -19,9 +21,13 @@ page("/myTeams", renderMiddleware, myTeamsView);
 page("/logout", logoutBtn);
 page("/browse", renderMiddleware, browseTeamView)
 page("/create", renderMiddleware, createTeamView);
-page("/teamHome/:id", renderMiddleware, teamHomeView);
+page("/teamHome/:id/:memberId", renderMiddleware, teamHomeView);
 page("/edit/:id", renderMiddleware, teamHomeView);
-page("/joinTeam/:id", renderMiddleware, joinTeam);
+page("/joinTeamAutomatically/:id", renderMiddleware, joinTeamAutomatically);
+page("/joinTeam/:id/:teamId", renderMiddleware, joinTeam);
+page("/approve/:recId/:teamId", renderMiddleware, approve);
+page("/leaveTeamCancel/:teamId/:memberId", renderMiddleware, leaveTeamCancel);
+page('*', renderMiddleware, homeView)
 
 updateNav()
 
